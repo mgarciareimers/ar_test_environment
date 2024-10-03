@@ -35,7 +35,6 @@ class AppLocalizations {
   static LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   static Map<String, String>? _localizedStrings;
-  static Map<String, String>? _localizedCountries;
 
   void reload() async {
     delegate = _AppLocalizationsDelegate();
@@ -53,14 +52,11 @@ class AppLocalizations {
       Preferences().session = session;
     }
 
-    String jsonStrings = await rootBundle.loadString('lang/strings/$languageCode.json');
-    String jsonCountries = await rootBundle.loadString('lang/countries/$languageCode.json');
+    String jsonStrings = await rootBundle.loadString('lang/$languageCode.json');
 
     Map<String, dynamic> jsonStringsMap = json.decode(jsonStrings);
-    Map<String, dynamic> jsonCountriesMap = json.decode(jsonCountries);
 
     _localizedStrings = jsonStringsMap.map((key, value) => MapEntry(key, value.toString()));
-    _localizedCountries = jsonCountriesMap.map((key, value) => MapEntry(key, value.toString()));
 
     return true;
   }
@@ -68,11 +64,6 @@ class AppLocalizations {
   // Method that will be called from every widget which needs a localized text.
   String translate(String key) {
     return _localizedStrings![key] ?? Strings.nullString;
-  }
-
-  // Method that will be called from every widget which needs a localized country text.
-  String translateCountry(String key) {
-    return _localizedCountries![key] ?? Strings.nullString;
   }
 
   // Get locale by language code.

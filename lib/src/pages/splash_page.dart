@@ -88,7 +88,7 @@ class _SplashPageState extends State<SplashPage> {
   // Method that creates the content.
   Widget _createContent() {
     return const Center(
-      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black)),
+      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurple)),
     );
   }
 
@@ -105,6 +105,10 @@ class _SplashPageState extends State<SplashPage> {
 
   // Method that loads the page.
   void _loadPage() {
+    if (!mounted) {
+      return;
+    }
+
     Utils.navigatorPushAndRemoveUntil(
       context: context,
       newRouteName: Routes.home

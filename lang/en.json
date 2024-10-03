@@ -4,6 +4,7 @@
   "home": "Home",
   "loading": "Loading",
   "retry": "Retry",
+  "test_cylinder": "Test cylinder",
 
   "error_connection": "Connection error",
   "error_connection_text": "Please connect your device to the internet.",

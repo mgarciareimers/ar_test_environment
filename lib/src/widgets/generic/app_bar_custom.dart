@@ -33,17 +33,17 @@ class AppBarCustom extends StatelessWidget implements PreferredSize {
           SizedBox(
             height: kToolbarHeight,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 onBackButtonClicked == null ? Container() : _createBackButton(),
-                SizedBox(width: onBackButtonClicked == null ? 0 : Sizes.margin12),
+                SizedBox(width: onBackButtonClicked == null ? Sizes.margin20 : Sizes.margin12),
 
                 Flexible(
                   child: TextLato(
                     text: title,
                     fontSize: Sizes.font17,
-                    color: Colors.deepPurple,
+                    color: Colors.white,
                     fontWeight: FontWeight.w700,
                   ),
                 )
@@ -53,7 +53,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSize {
         ],
       ),
       centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.deepPurple,
       toolbarHeight: double.maxFinite,
       elevation: 0,
       actions: [

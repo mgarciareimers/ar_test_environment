@@ -198,11 +198,6 @@ class Utils {
         StateBloc stateBloc = BlocProvider.stateBloc(context);
         stateBloc.changeRouteName(originalRouteName);
 
-        SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
-          label: Routes.getTabTitle(context, stateBloc.routeName),
-          primaryColor: Theme.of(context).primaryColor.value,
-        ));
-
         return value;
       });
   }
