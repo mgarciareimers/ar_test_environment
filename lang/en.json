@@ -1,0 +1,12 @@
+{
+  "app_name": "AR Test Environment",
+  "cancel": "Cancel",
+  "home": "Home",
+  "loading": "Loading",
+  "retry": "Retry",
+
+  "error_connection": "Connection error",
+  "error_connection_text": "Please connect your device to the internet.",
+  "error_generic": "Error",
+  "error_generic_text": "An error occurred. Please try again."
+}
