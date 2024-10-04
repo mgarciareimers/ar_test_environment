@@ -12,9 +12,6 @@ import 'package:ar_test_env_app/src/bloc/bloc_provider.dart';
 // Constants.
 import 'package:ar_test_env_app/src/commons/constants/sizes.dart';
 
-// Utils.
-import 'package:ar_test_env_app/src/commons/utils/routes.dart';
-
 // Widgets.
 import 'package:ar_test_env_app/src/widgets/generic/progress_bar.dart';
 import 'package:ar_test_env_app/src/widgets/generic/text_lato.dart';

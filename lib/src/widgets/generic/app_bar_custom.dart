@@ -31,7 +31,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSize {
       title: Stack(
         children: [
           SizedBox(
-            height: kToolbarHeight,
+            height: Sizes.appBarHeight,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,7 +68,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSize {
       onTap: onBackButtonClicked,
       child: Container(
         padding: const EdgeInsets.only(left: Sizes.margin16),
-        color: Colors.white,
+        color: Colors.deepPurple,
         height: Sizes.appBarHeight,
         child: const Icon(
           Icons.keyboard_arrow_left,

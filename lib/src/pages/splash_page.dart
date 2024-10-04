@@ -68,8 +68,6 @@ class _SplashPageState extends State<SplashPage> {
 
     stateBloc.reset();
     stateBloc.changeRouteName(Routes.splash);
-
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) => Future.delayed(const Duration(milliseconds: Numbers.delaySplash), () => _loadPage()));
   }
 
   // Method that handles the get data response.
@@ -105,10 +103,6 @@ class _SplashPageState extends State<SplashPage> {
 
   // Method that loads the page.
   void _loadPage() {
-    if (!mounted) {
-      return;
-    }
-
     Utils.navigatorPushAndRemoveUntil(
       context: context,
       newRouteName: Routes.home

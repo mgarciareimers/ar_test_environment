@@ -76,6 +76,8 @@ class _HomePageState extends State<HomePage> {
         mainAxisSpacing: Sizes.margin20,
       ),
       children: [
+        _createItem(Routes.flutterPlugin),
+        _createItem(Routes.nativePlugin),
         _createItem(Routes.testCylinder),
       ],
     );

@@ -13,6 +13,7 @@ class Strings {
   static const String hyphen = '-';
   static const String nullString = 'null';
   static const String oneSpace = ' ';
+  static const String replaceCode = '{*-(;).:.(;)-*}';
   static const String slash = '/';
   static const String times = 'x';
   static const String zero = '0';

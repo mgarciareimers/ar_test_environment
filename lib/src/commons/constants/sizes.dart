@@ -1,5 +1,5 @@
 class Sizes {
-  static const double appBarHeight = 80;
+  static const double appBarHeight = 70;
   static const double borderRadius5 = 5;
   static const double borderRadius10 = 10;
   static const double borderRadius20 = 20;
