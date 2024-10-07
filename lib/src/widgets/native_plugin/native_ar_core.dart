@@ -61,38 +61,12 @@ class _NativeArCoreState extends State<NativeArCore> {
   // Method that is called when view has been created.
   void _onArCoreViewCreated(ArCoreController controller) {
     arCoreController = controller;
+
     //arCoreController.onNodeTap = _onNodeTapped;
     //arCoreController.onPlaneTap = _onPlaneTapped;
     //arCoreController.onPlaneDetected = _onPlaneDetected;
 
     _displayCylinder();
-  }
-
-  // Method that is called when controller detects a plane.
-  void _onPlaneDetected(ArCorePlane plane) {
-    print('>>> DETECTED!');
-    print('${ plane.centerPose?.translation.x }, ${ plane.centerPose?.translation.y }, ${ plane.centerPose?.translation.z }');
-    _displayCylinder();
-  }
-
-  // Method that is called when the user taps the node.
-  void _onNodeTapped(String name) {
-    Utils.showMaterialAlertDialog(
-      context,
-      AppLocalizations.of(context)!.translate('information'),
-      AppLocalizations.of(context)!.translate('node_tapped_text').replaceFirst(Strings.replaceCode, name),
-      AppLocalizations.of(context)!.translate('ok'),
-      null,
-      Navigator.pop,
-      null
-    );
-  }
-
-  // Method that is called when the user taps a plane.
-  void _onPlaneTapped(List<ArCoreHitTestResult> hits) {
-    final ArCoreHitTestResult hit = hits.first;
-
-
   }
 
   // Method that displays a cylinder.

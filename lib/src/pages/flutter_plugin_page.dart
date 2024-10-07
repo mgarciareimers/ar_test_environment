@@ -1,12 +1,15 @@
-import 'package:ar_flutter_plugin_flutterflow/datatypes/config_planedetection.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:ar_flutter_plugin_flutterflow/ar_flutter_plugin.dart';
+import 'package:ar_flutter_plugin_flutterflow/datatypes/hittest_result_types.dart';
+import 'package:ar_flutter_plugin_flutterflow/models/ar_anchor.dart';
+import 'package:ar_flutter_plugin_flutterflow/models/ar_hittest_result.dart';
 import 'package:ar_flutter_plugin_flutterflow/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin_flutterflow/managers/ar_anchor_manager.dart';
 import 'package:ar_flutter_plugin_flutterflow/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin_flutterflow/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin_flutterflow/managers/ar_session_manager.dart';
+import 'package:ar_flutter_plugin_flutterflow/datatypes/config_planedetection.dart';
 import 'package:ar_flutter_plugin_flutterflow/models/ar_node.dart';
 
 // Utils.
@@ -29,14 +32,20 @@ class FlutterPluginPage extends StatefulWidget {
 class _FlutterPluginPageState extends State<FlutterPluginPage> {
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
+  late ARAnchorManager arAnchorManager;
   late ARNode arNode;
 
   late String nodeName;
-  late ARNode selectedNode;
+  late ARNode? selectedNode;
+
+  late List<ARPlaneAnchor> anchors;
 
   @override
   void initState() {
     nodeName = 'chicken';
+    selectedNode = null;
+
+    anchors = [];
 
     super.initState();
   }
@@ -62,6 +71,14 @@ class _FlutterPluginPageState extends State<FlutterPluginPage> {
         topPadding: 0,
         child: _createContent()
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
+        onPressed: _onDeleteAllButtonClicked,
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 
@@ -77,39 +94,86 @@ class _FlutterPluginPageState extends State<FlutterPluginPage> {
   void onARViewCreated(ARSessionManager arSessionManager, ARObjectManager arObjectManager, ARAnchorManager arAnchorManager, ARLocationManager arLocationManager) {
     this.arSessionManager = arSessionManager;
     this.arObjectManager = arObjectManager;
+    this.arAnchorManager = arAnchorManager;
+
     this.arObjectManager.onPanEnd = _onPanEnd;
 
-    this.arObjectManager.onInitialize();
-
-    _addObjectToScene();
-  }
-
-  // Method that adds the object to the scene.
-  void _addObjectToScene() async {
-    selectedNode = ARNode(
-      type: NodeType.localGLTF2,
-      uri: ARObjects.chicken,
-      name: nodeName,
-      scale: vector.Vector3(0.1, 0.1, 0.1),
-      position: vector.Vector3(0.0, 0.0,0.0),
-      rotation: vector.Vector4(0.0, 0.0, 0.0, 0.0),
-    );
-
-    arSessionManager.onInitialize(
+    this.arSessionManager.onInitialize(
       showFeaturePoints: false,
       showPlanes: true,
       customPlaneTexturePath: 'assets/images/triangle.png',
-      showWorldOrigin: true,
+      showWorldOrigin: false,
       handlePans: true,
       showAnimatedGuide: false,
     );
 
-    await arObjectManager.addNode(selectedNode);
+    this.arObjectManager.onInitialize();
+
+    this.arSessionManager.onPlaneOrPointTap = _onPlaneOrPointTapped;
   }
 
-  // Method that is called when the user end the pan.
+  // Method that is called when the user taps a plane or a point.
+  Future<void> _onPlaneOrPointTapped(List<ARHitTestResult> hitTestResults) async {
+    print('>>> HUUU');
+    print('>>> hitTestResults: $hitTestResults');
+    if (selectedNode != null) {
+      return;
+    }
+
+    dynamic singleHitTestResult = hitTestResults.firstWhere((hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
+
+    if (singleHitTestResult == null) {
+      return;
+    }
+
+    // Add hit anchor.
+    ARPlaneAnchor newAnchor = ARPlaneAnchor(transformation: singleHitTestResult.worldTransform);
+    bool? didAddAnchor = await arAnchorManager.addAnchor(newAnchor);
+
+    if (didAddAnchor == null || !didAddAnchor) {
+      return;
+    }
+
+    anchors.add(newAnchor);
+
+    // Add note to anchor
+    ARNode newNode = _getNode();
+
+    bool? didAddNodeToAnchor = await arObjectManager.addNode(newNode, planeAnchor: newAnchor);
+
+    if (didAddNodeToAnchor!) {
+      selectedNode = newNode;
+    } else {
+      arSessionManager.onError!("Adding Node to Anchor failed");
+    }
+  }
+
+  // Method that gets a node.
+  ARNode _getNode() {
+    return ARNode(
+      type: NodeType.localGLTF2,
+      uri: ARObjects.chicken,
+      name: nodeName,
+      scale: vector.Vector3(0.1, 0.1, 0.1),
+      position: vector.Vector3(0.0, 0.0, 0.0),
+      rotation: vector.Vector4(1.0, 0.0, 0.0, 0.0),
+    );
+  }
+
+  // Method that is called when the user clicks the delete all button.
+  void _onDeleteAllButtonClicked() {
+    for (ARPlaneAnchor anchor in anchors) {
+      arAnchorManager.removeAnchor(anchor);
+    }
+
+    anchors.clear();
+    selectedNode = null;
+  }
+
+  // Method that is called when the user ends the pan.
   void _onPanEnd(String node, Matrix4 transform) {
-    selectedNode.transform = transform;
+    print('>>> HI');
+    selectedNode?.transform = transform;
   }
 }
 
