@@ -39,16 +39,13 @@ dependencies:
   connectivity_plus: ^6.0.5
   cupertino_icons: ^1.0.8
   fluro: ^2.0.5
+  flutter_unity_widget: ^2022.2.0
   package_info_plus: ^8.0.2
   provider: ^6.1.2
   rxdart: ^0.28.0
   shared_preferences: ^2.3.2
   url_launcher: ^6.3.0
   vector_math: any
-
-  # AR packages.
-  ar_flutter_plugin_flutterflow: ^0.7.47 # Flutter: Both Android and iOS.
-  arcore_flutter_plugin: ^0.1.0 # Android.
 
 dev_dependencies:
   flutter_test:

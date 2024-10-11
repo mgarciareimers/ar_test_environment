@@ -10,7 +10,7 @@
   "node_tapped_text": "{*-(;).:.(;)-*} has been tapped!",
   "ok": "Ok",
   "retry": "Retry",
-  "test_cylinder": "Test cylinder",
+  "test": "Test",
 
   "error_connection": "Connection error",
   "error_connection_text": "Please connect your device to the internet.",
